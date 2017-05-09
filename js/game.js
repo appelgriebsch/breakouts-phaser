@@ -65,7 +65,7 @@
     scoreText = game.add.text(10, 20, 'score: 0', { font: "20px Arial", fill: "#ffffff", align: "left" });
     livesText = game.add.text(width - 70, 20, 'lives: 3', { font: "20px Arial", fill: "#ffffff", align: "left" });
     levelText = game.add.text((width / 2) - 20, 20, 'level: ' + (currentLevel + 1), { font: "20px Arial", fill: "#ffffff", align: "left" });
-    
+
     introText = game.add.text(game.world.centerX, height - 200, '- click to start -', { font: "40px Arial", fill: "#ffffff", align: "center" });
     introText.anchor.setTo(0.5, 0.5);
 
@@ -137,7 +137,18 @@
 
   function ballHitBrick(_ball, _brick) {
 
-    _brick.kill();
+    _brick.animations.play("brick_die", 15);  //just play
+    _brick.events.onAnimationComplete.add(onAnimationCompleteBrick, _brick);
+
+    //this.brickDeath.play();
+  }
+
+  function onAnimationCompleteBrick(sprite, animation) {
+
+    //check which animation was finished
+    if (animation.name == "brick_die") {
+      sprite.kill(); //working kill a brick 
+    }
 
     score += 10;
 
@@ -147,7 +158,7 @@
     if (bricks.countLiving() == 0) {
       //  New level starts
       scoreText.text = 'score: ' + score;
-      
+
       currentLevel++;
 
       if (currentLevel > breakoutLevels.length) {
@@ -156,10 +167,10 @@
       else {
         introText.visible = true;
         introText.text = '- Level ' + (currentLevel + 1) + ' -';
-        levelText = 'level: ' + (currentLevel + 1);
+        levelText.text = 'level: ' + (currentLevel + 1);
         populateLevel(currentLevel);
       }
-      
+
       //  Let's move the ball back to the paddle
       ballOnPaddle = true;
       ball.body.velocity.set(0);
@@ -302,7 +313,7 @@
           }
 
           tempBrick = bricks.create(x * 32 + 64, y * 16 + 64, 'breakout', 'brick_' + bID + '_1.png');
-          /* tempBrick.animations.add('idle', ['brick_' + bID + '_1.png'], 10, false, false);
+          tempBrick.animations.add('idle', ['brick_' + bID + '_1.png'], 10, false, false);
           tempBrick.diedie = tempBrick.animations.add('brick_die', [
             'brick_' + bID + '_1.png',
             'brick_' + bID + '_2.png',
@@ -316,19 +327,19 @@
             'brick_' + bID + '_1.png'
           ], 10, false, false);
           var tempCount = 0;
-          if (this.bricks.countLiving() > 0) {
-            tempCount = this.bricks.countLiving();
+          if (bricks.countLiving() > 0) {
+            tempCount = bricks.countLiving();
           }
           tempBrick.name = 'brick' + (tempCount + 1);
 
           //tempBrick.frameName = 'brick_' + bID + '_1.png';
           //if you use this you must change the body size
           // and it's easier if it's set when sprite is created
-          */
+
           tempBrick.body.bounce.setTo(1);
           tempBrick.body.immovable = true;
 
-          //tempBrick.animations.play("brick_popin");
+          tempBrick.animations.play("brick_popin");
 
           bricks.add(tempBrick);
 

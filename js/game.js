@@ -18,6 +18,7 @@
 
   var bricksWithItems = [];
   var sounds = {};
+  var items;
 
   var ballOnPaddle = true;
 
@@ -42,6 +43,9 @@
     game.physics.arcade.checkCollision.down = false;
 
     s = game.add.tileSprite(0, 0, width, height, 'background');
+    items = this.game.add.group();
+    items.enableBody = true;
+    items.physicsBodyType = Phaser.Physics.ARCADE;
 
     loadLevels();
     createSoundsAndMusic();
@@ -148,6 +152,10 @@
     _brick.events.onAnimationComplete.add(onAnimationCompleteBrick, _brick);
 
     sounds.brickDeath.play();
+
+    if (bricksWithItems.indexOf(_brick.name) > -1) {
+      dropItem(_brick.x, _brick.y);
+    }
   }
 
   function onAnimationCompleteBrick(sprite, animation) {
@@ -381,8 +389,40 @@
     sounds.powerup = game.add.audio('powerup');
   }
 
-  function getRandomInt (min, max) {
+  function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function dropItem(dropItemInitialX, dropItemInitialY) {
+
+    var typeFrame = "";
+    var itemEffectName = "";
+
+    if (Math.floor(Math.random() * 2)) {
+      typeFrame = 'power_down.png';
+      itemEffectName = "powerDown";
+    } else {
+      typeFrame = 'power_up.png';
+      itemEffectName = "powerUp";
+    }
+
+    var dropItem;
+    dropItem = items.create(
+      getRandomInt(32, game.world.width - 64), -32, 'breakout', typeFrame);
+    var tempCount = 0;
+    if (items.countLiving() > 0) {
+      tempCount = items.countLiving();
+    }
+    dropItem.name = 'item' + (tempCount + 1);
+
+    //custom property
+    dropItem.itemEffectName = itemEffectName;
+
+    dropItem.body.x = dropItemInitialX;
+    dropItem.body.y = dropItemInitialY;
+    dropItem.body.velocity.y = 100;
+
+    items.add(dropItem);
   }
 
 })(375, 667);

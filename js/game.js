@@ -8,6 +8,7 @@
     game.load.atlas('breakout', 'img/breakout.png', 'img/breakout.json');
     game.load.image('background', 'img/background.png');
     game.load.audio('brickDeath', ['sfx/brickDeath.mp3']);
+    game.load.audio('hitPaddle', ['sfx/hitPaddle.mp3']);
     game.load.audio('powerdown', ['sfx/powerdown.mp3']);
     game.load.audio('powerup', ['sfx/powerup.mp3']);
     game.load.audio('recover', ['sfx/recover.mp3']);
@@ -220,6 +221,7 @@
       _ball.body.velocity.x = 2 + Math.random() * 8;
     }
 
+    sounds.hitPaddle.play();
   }
 
   function loadLevels() {
@@ -390,6 +392,7 @@
 
   function createSoundsAndMusic() {
     sounds.brickDeath = game.add.audio('brickDeath');
+    sounds.hitPaddle = game.add.audio('hitPaddle');
     sounds.powerdown = game.add.audio('powerdown');
     sounds.powerup = game.add.audio('powerup');
     sounds.recover = game.add.audio('recover');

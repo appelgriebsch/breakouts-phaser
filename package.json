@@ -1,0 +1,14 @@
+{
+  "name": "breakouts",
+  "version": "0.1.0",
+  "description": "An HTML5 breakouts clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andreas Gerlach",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "^2.6.2"
+  }
+}

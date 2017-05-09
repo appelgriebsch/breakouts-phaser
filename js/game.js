@@ -7,11 +7,16 @@
   function preload() {
     game.load.atlas('breakout', 'img/breakout.png', 'img/breakout.json');
     game.load.image('background', 'img/background.png');
+    game.load.audio('brickDeath', ['sfx/brickDeath.mp3']);
+    game.load.audio('powerdown', ['sfx/powerdown.mp3']);
+    game.load.audio('powerup', ['sfx/powerup.mp3']);
   }
 
   var ball;
   var paddle;
   var bricks;
+
+  var sounds = {};
 
   var ballOnPaddle = true;
 
@@ -38,6 +43,7 @@
     s = game.add.tileSprite(0, 0, width, height, 'background');
 
     loadLevels();
+    createSoundsAndMusic();
     populateLevel(currentLevel);
 
     paddle = game.add.sprite(game.world.centerX, height - 50, 'breakout', 'paddle_big.png');
@@ -140,7 +146,7 @@
     _brick.animations.play("brick_die", 15);  //just play
     _brick.events.onAnimationComplete.add(onAnimationCompleteBrick, _brick);
 
-    //this.brickDeath.play();
+    sounds.brickDeath.play();
   }
 
   function onAnimationCompleteBrick(sprite, animation) {
@@ -366,6 +372,12 @@
 
     }
     */
+  }
+
+  function createSoundsAndMusic () {
+    sounds.brickDeath = game.add.audio('brickDeath');
+    sounds.powerdown = game.add.audio('powerdown');
+    sounds.powerup = game.add.audio('powerup');
   }
 
 })(375, 667);

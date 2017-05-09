@@ -10,6 +10,7 @@
     game.load.audio('brickDeath', ['sfx/brickDeath.mp3']);
     game.load.audio('powerdown', ['sfx/powerdown.mp3']);
     game.load.audio('powerup', ['sfx/powerup.mp3']);
+    game.load.audio('recover', ['sfx/recover.mp3']);
   }
 
   var ball;
@@ -32,6 +33,9 @@
 
   var currentLevel = 0;
   var breakoutLevels;
+
+  var gemsTimer;
+  var gemTimeout = 10000;
 
   var s;
 
@@ -388,6 +392,7 @@
     sounds.brickDeath = game.add.audio('brickDeath');
     sounds.powerdown = game.add.audio('powerdown');
     sounds.powerup = game.add.audio('powerup');
+    sounds.recover = game.add.audio('recover');
   }
 
   function getRandomInt(min, max) {
@@ -441,11 +446,38 @@
   }
 
   function decreasePaddleSize() {
+    if (gemsTimer) {
+      clearTimeout(gemsTimer);
+    }
 
+    var originalWidth = paddle.width;
+
+    gemsTimer = setTimeout(function() {
+
+      paddle.width = originalWidth;
+
+      sounds.recover.play();
+
+    }, gemTimeout);
+
+    paddle.width /= 2;
   }
 
   function increasePaddleSize() {
+    if (gemsTimer) {
+      clearTimeout(gemsTimer);
+    }
 
+    var originalWidth = paddle.width;
+
+    gemsTimer = setTimeout(function () {
+
+      paddle.width = originalWidth;
+      
+      sounds.recover.play();
+    }, gemTimeout);
+
+    paddle.width *= 2;
   }
 
 })(375, 667);

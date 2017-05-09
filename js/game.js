@@ -103,6 +103,7 @@
     else {
       game.physics.arcade.collide(ball, paddle, ballHitPaddle, null, this);
       game.physics.arcade.collide(ball, bricks, ballHitBrick, null, this);
+      game.physics.arcade.collide(paddle, items, itemHitPaddle, null, this);
     }
 
   }
@@ -423,6 +424,28 @@
     dropItem.body.velocity.y = 100;
 
     items.add(dropItem);
+  }
+
+  function itemHitPaddle(_paddle, _item) {
+    if (_item.itemEffectName == "powerDown") {
+      decreasePaddleSize();
+      //play a sound
+      sounds.powerdown.play();
+    } else {
+      increasePaddleSize();
+      //play a sound
+      sounds.powerup.play();
+    }
+    _item.kill();
+    return true;
+  }
+
+  function decreasePaddleSize() {
+
+  }
+
+  function increasePaddleSize() {
+
   }
 
 })(375, 667);

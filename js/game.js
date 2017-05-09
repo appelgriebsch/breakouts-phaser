@@ -16,6 +16,7 @@
   var paddle;
   var bricks;
 
+  var bricksWithItems = [];
   var sounds = {};
 
   var ballOnPaddle = true;
@@ -354,30 +355,34 @@
     }
 
     //Give some random bricks the abbility to drop items
-    /* var dropItemLimit = this.dropItemLimit + this.currentLevel;
-    var brickPartLimit = Math.floor(this.bricks.countLiving() / dropItemLimit);
+    var dropItemLimit = Level.powerUps + Level.powerDowns;
+    var brickPartLimit = Math.floor(bricks.countLiving() / dropItemLimit);
     var brickStartLimit = 1;
     var brickEndLimit = brickPartLimit;
 
     for (var dropCount = 0; dropCount < dropItemLimit; dropCount++) {
 
-      var randomBrick = this.getRandomInt(brickStartLimit, brickEndLimit);
+      var randomBrick = getRandomInt(brickStartLimit, brickEndLimit);
 
       //Get random value in range
       var randomBrickName = "brick" + randomBrick;
-      this.bricksWithItems.push(randomBrickName);
+      bricksWithItems.push(randomBrickName);
 
       brickStartLimit = brickEndLimit + 1;
       brickEndLimit += brickPartLimit;
-
     }
-    */
+
+    console.log(bricksWithItems)
   }
 
-  function createSoundsAndMusic () {
+  function createSoundsAndMusic() {
     sounds.brickDeath = game.add.audio('brickDeath');
     sounds.powerdown = game.add.audio('powerdown');
     sounds.powerup = game.add.audio('powerup');
+  }
+
+  function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
 })(375, 667);

@@ -3,7 +3,7 @@
 
   Phaser.Device.whenReady(function () {
     var width = window.screen.width;
-    var height = window.screen.height;
+    var height = window.screen.height - 50;
 
     if (Phaser.Device.desktop) {
       width = 400;
